@@ -1,7 +1,6 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { authApi } from "./api";
 import { setToken, removeToken } from "@/lib/token";
 import { queryKeys } from "@/lib/query-keys";
@@ -32,15 +31,17 @@ export function useRegister() {
   return useMutation({ mutationFn: authApi.register, onSuccess });
 }
 
+// Stay on the current page; the header switches to the guest menu.
+// Private pages will be handled by the auth guard later.
 export function useLogout() {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   return () => {
     removeToken();
     dispatch(loggedOut());
-    queryClient.clear(); // drop all cached private data
-    router.replace("/login");
+    queryClient.removeQueries({ queryKey: queryKeys.me });
+    // Refetch active queries as guest (e.g. likedByMe becomes false)
+    queryClient.invalidateQueries();
   };
 }

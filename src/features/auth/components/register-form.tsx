@@ -37,7 +37,7 @@ export function RegisterForm() {
     // confirmPassword is UI-only, the API doesn't accept it
     registerMutation.mutate(payload, {
       // Register returns a token, so the user is already logged in
-      onSuccess: () => router.replace("/feed"),
+      onSuccess: () => router.replace("/"),
     });
   };
 

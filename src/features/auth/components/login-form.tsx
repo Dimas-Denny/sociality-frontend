@@ -15,7 +15,7 @@ import { authInputClass } from "../styles";
 
 function getSafeReturnTo(value: string | null) {
   if (value && value.startsWith("/") && !value.startsWith("//")) return value;
-  return "/feed";
+  return "/";
 }
 
 export function LoginForm() {

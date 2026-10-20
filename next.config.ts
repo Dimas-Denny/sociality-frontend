@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
       },
     },
   },
+
+  // Post images & avatars are hosted on Cloudinary
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
+  },
 };
 
 export default nextConfig;
