@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Bookmark, Heart, MessageCircle, Send } from "lucide-react";
+import { Bookmark, MessageCircle, Send } from "lucide-react";
 import { toast } from "sonner";
 import { UserAvatar } from "@/components/shared/user-avatar";
+import { LikeButton } from "@/features/likes/components/like-button";
 import { fromNow } from "@/lib/date";
 import type { Post } from "../types";
 import { PostImage } from "./post-image";
@@ -46,24 +47,11 @@ export function PostCard({ post }: { post: Post }) {
         />
       </Link>
 
-      {/* Actions — like & save get wired up in Step 9 */}
+      {/* Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <button
-            type="button"
-            aria-label={post.likedByMe ? "Unlike" : "Like"}
-            aria-pressed={post.likedByMe}
-            className="flex items-center gap-1.5"
-          >
-            <Heart
-              className={
-                post.likedByMe
-                  ? "size-6 fill-accent-red text-accent-red"
-                  : "size-6"
-              }
-            />
-            <span className="text-md font-semibold">{post.likeCount}</span>
-          </button>
+          {/* Like: optimistic toggle (Step 9a) */}
+          <LikeButton post={post} />
 
           <Link
             href={postHref}
@@ -83,6 +71,7 @@ export function PostCard({ post }: { post: Post }) {
           </button>
         </div>
 
+        {/* Save: wired up in Step 9b */}
         <button type="button" aria-label="Save post">
           <Bookmark className="size-6" />
         </button>
