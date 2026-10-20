@@ -60,7 +60,7 @@ export function HomeFeed() {
         action={
           <Button
             render={<Link href="/users/search" />}
-            nativeButton={false} // rendered as <a>, not a native <button>
+            nativeButton={false}
             className="h-10 rounded-full bg-primary-300 px-6 font-bold hover:bg-primary-200"
           >
             Find people
