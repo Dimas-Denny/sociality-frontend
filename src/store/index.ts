@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth-slice";
+import uiReducer from "./slices/ui-slice";
 
-// Factory function: Next.js needs a fresh store per request/client
 export const makeStore = () =>
   configureStore({
     reducer: {
       auth: authReducer,
+      ui: uiReducer,
     },
   });
 

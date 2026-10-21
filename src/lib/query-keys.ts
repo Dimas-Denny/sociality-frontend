@@ -8,4 +8,6 @@ export const queryKeys = {
 
   users: ["users"] as const,
   userSearch: (keyword: string) => ["users", "search", keyword] as const,
+
+  comments: (postId: number) => ["posts", postId, "comments"] as const,
 };
