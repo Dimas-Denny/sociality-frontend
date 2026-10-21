@@ -7,6 +7,8 @@ import { UserAvatar } from "@/components/shared/user-avatar";
 import { LikeButton } from "@/features/likes/components/like-button";
 import { SaveButton } from "@/features/saves/components/save-button";
 import { fromNow } from "@/lib/date";
+import { useAppDispatch } from "@/store/hooks";
+import { openComments } from "@/store/slices/ui-slice";
 import type { Post } from "../types";
 import { PostImage } from "./post-image";
 import { PostCaption } from "./post-caption";
@@ -15,6 +17,10 @@ export function PostCard({ post }: { post: Post }) {
   const { author } = post;
   const profileHref = `/profile/${author.username}`;
   const postHref = `/posts/${post.id}`;
+
+  const dispatch = useAppDispatch();
+  const showComments = () =>
+    dispatch(openComments({ postId: post.id, postAuthorId: author.id }));
 
   const handleShare = async () => {
     try {
@@ -40,7 +46,7 @@ export function PostCard({ post }: { post: Post }) {
         </div>
       </Link>
 
-      {/* Image */}
+      {/* Image — PostImage is used here */}
       <Link href={postHref}>
         <PostImage
           src={post.imageUrl}
@@ -53,14 +59,16 @@ export function PostCard({ post }: { post: Post }) {
         <div className="flex items-center gap-4">
           <LikeButton post={post} />
 
-          <Link
-            href={postHref}
-            aria-label="Comments"
+          {/* Opens the global comments sheet (Redux ui-slice) */}
+          <button
+            type="button"
+            onClick={showComments}
+            aria-label="Show comments"
             className="flex items-center gap-1.5"
           >
             <MessageCircle className="size-6" />
             <span className="text-md font-semibold">{post.commentCount}</span>
-          </Link>
+          </button>
 
           <button
             type="button"
