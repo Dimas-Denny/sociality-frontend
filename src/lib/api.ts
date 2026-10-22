@@ -36,3 +36,7 @@ export function getErrorMessage(
   if (error instanceof Error) return error.message;
   return fallback;
 }
+
+export function isNotFound(error: unknown) {
+  return axios.isAxiosError(error) && error.response?.status === 404;
+}

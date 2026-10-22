@@ -13,8 +13,6 @@ import { useAppSelector } from "@/store/hooks";
 import { cn } from "@/lib/utils";
 
 export function AppHeader() {
-  const { isAuthenticated, isReady } = useAppSelector((state) => state.auth);
-
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-neutral-900 bg-black px-4">
       <Link href="/" className="flex items-center gap-3">
@@ -26,18 +24,21 @@ export function AppHeader() {
         <Link href="/users/search" aria-label="Search users">
           <Search className="size-6" />
         </Link>
-
-        {/* Placeholder until the token cookie is checked, avoids a hamburger flash */}
-        {!isReady ? (
-          <span className="size-10 animate-pulse rounded-full bg-neutral-900" />
-        ) : isAuthenticated ? (
-          <UserMenu />
-        ) : (
-          <GuestMenu />
-        )}
+        <HeaderAccountMenu />
       </div>
     </header>
   );
+}
+
+export function HeaderAccountMenu() {
+  const { isAuthenticated, isReady } = useAppSelector((state) => state.auth);
+
+  // Placeholder until the token cookie is checked, avoids a hamburger flash
+  if (!isReady)
+    return (
+      <span className="size-10 animate-pulse rounded-full bg-neutral-900" />
+    );
+  return isAuthenticated ? <UserMenu /> : <GuestMenu />;
 }
 
 export function UserMenu() {

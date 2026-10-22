@@ -1,6 +1,6 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { cn } from "@/lib/utils";
@@ -41,7 +41,7 @@ export function FollowButton({
     >
       {isFollowing ? (
         <>
-          <Check className="size-4" />
+          <CircleCheck className="size-5" />
           Following
         </>
       ) : (

@@ -12,4 +12,10 @@ export const queryKeys = {
   comments: (postId: number) => ["posts", postId, "comments"] as const,
 
   myPosts: ["me", "posts"] as const,
+
+  userProfile: (username: string) => ["users", "profile", username] as const,
+  userPosts: (username: string) =>
+    ["posts", "user", username, "posts"] as const,
+  userLikes: (username: string) =>
+    ["posts", "user", username, "likes"] as const,
 };
