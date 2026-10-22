@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { makeStore } from "@/store";
 import { AuthInitializer } from "./auth-initializer";
 import { Toaster } from "sonner";
@@ -32,7 +31,6 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <NavigationTracker />
         {children}
         <Toaster theme="dark" position="top-center" richColors />
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </Provider>
   );
