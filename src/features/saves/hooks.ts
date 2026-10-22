@@ -6,6 +6,7 @@ import { getErrorMessage } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
 import { useAppSelector } from "@/store/hooks";
 import { savesApi } from "./api";
+import { useInfinitePosts } from "@/features/posts/hooks";
 
 const SAVED_IDS_LIMIT = 50; // API max per page
 
@@ -29,6 +30,17 @@ export function useSavedIds() {
 interface ToggleSaveVars {
   postId: number;
   saved: boolean;
+}
+
+// Full saved list for the Saved tab (only fetched when the tab is opened)
+export function useSavedPosts(enabled: boolean) {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
+  return useInfinitePosts({
+    queryKey: queryKeys.savedList,
+    fetchPage: savesApi.getSaved,
+    enabled: isAuthenticated && enabled,
+  });
 }
 
 export function useToggleSave() {
