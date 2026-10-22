@@ -13,7 +13,12 @@ import type { Post } from "../types";
 import { PostImage } from "./post-image";
 import { PostCaption } from "./post-caption";
 
-export function PostCard({ post }: { post: Post }) {
+interface PostCardProps {
+  post: Post;
+  priority?: boolean;
+}
+
+export function PostCard({ post, priority = false }: PostCardProps) {
   const { author } = post;
   const profileHref = `/profile/${author.username}`;
   const postHref = `/posts/${post.id}`;
@@ -51,6 +56,7 @@ export function PostCard({ post }: { post: Post }) {
         <PostImage
           src={post.imageUrl}
           alt={post.caption || `Post by ${author.username}`}
+          priority={priority}
         />
       </Link>
 

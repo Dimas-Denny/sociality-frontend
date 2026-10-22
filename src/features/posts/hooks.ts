@@ -1,8 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
-import { useInfiniteQuery, type QueryKey } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+  type QueryKey,
+} from "@tanstack/react-query";
+import { queryKeys } from "@/lib/query-keys";
 import type { PageParams } from "@/types/api";
+import { postsApi } from "./api";
 import type { Post, PostList } from "./types";
 
 interface UseInfinitePostsOptions {
@@ -40,3 +47,18 @@ export function useInfinitePosts({
 }
 
 export type InfinitePostsResult = ReturnType<typeof useInfinitePosts>;
+
+export function useCreatePost() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: postsApi.create,
+    onSuccess: () => {
+      // PDF: "after create, the post shows up in feed & my profile"
+      queryClient.invalidateQueries({ queryKey: queryKeys.feed });
+      queryClient.invalidateQueries({ queryKey: queryKeys.explore });
+      queryClient.invalidateQueries({ queryKey: queryKeys.myPosts });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true }); // post count
+    },
+  });
+}

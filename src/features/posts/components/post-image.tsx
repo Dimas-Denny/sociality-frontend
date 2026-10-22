@@ -8,10 +8,16 @@ interface PostImageProps {
   src: string;
   alt: string;
   sizes?: string;
+  priority?: boolean;
 }
 
 // Square post image with a placeholder if it fails to load (PDF: missing media)
-export function PostImage({ src, alt, sizes = "100vw" }: PostImageProps) {
+export function PostImage({
+  src,
+  alt,
+  sizes = "100vw",
+  priority = false,
+}: PostImageProps) {
   const [failed, setFailed] = useState(false);
 
   return (
@@ -26,6 +32,8 @@ export function PostImage({ src, alt, sizes = "100vw" }: PostImageProps) {
           alt={alt}
           fill
           sizes={sizes}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           className="object-cover"
           onError={() => setFailed(true)}
         />
