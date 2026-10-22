@@ -1,7 +1,7 @@
-import { AppHeader } from "@/components/layout/app-header";
 import { BottomNav } from "@/components/layout/bottom-nav";
 import { CommentsSheet } from "@/features/comments/components/comments-sheet";
 
+// Shared by every page that shows the bottom navigation
 export default function MainLayout({
   children,
 }: {
@@ -9,9 +9,8 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <AppHeader />
       {/* bottom padding so the floating nav never covers content */}
-      <main className="pb-28">{children}</main>
+      <div className="pb-28">{children}</div>
       <BottomNav />
       <CommentsSheet />
     </>
