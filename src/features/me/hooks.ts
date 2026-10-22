@@ -1,10 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { meApi } from "./api";
 import { queryKeys } from "@/lib/query-keys";
 import { useAppSelector } from "@/store/hooks";
 import { useInfinitePosts } from "@/features/posts/hooks";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useMe() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -23,5 +23,21 @@ export function useMyPosts() {
     queryKey: queryKeys.myPosts,
     fetchPage: meApi.getMyPosts,
     enabled: isAuthenticated,
+  });
+}
+
+export function useUpdateProfile() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: meApi.updateMe,
+    onSuccess: () => {
+      // Profile, stats, and my own lists
+      queryClient.invalidateQueries({ queryKey: queryKeys.me });
+      // My name/avatar appear as author on post cards & comments
+      queryClient.invalidateQueries({ queryKey: queryKeys.feed });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.users });
+    },
   });
 }

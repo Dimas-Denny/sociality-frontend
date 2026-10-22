@@ -20,3 +20,11 @@ export interface MeData {
   profile: MyProfile;
   stats: ProfileStats;
 }
+
+export interface UpdateProfilePayload {
+  name?: string;
+  username?: string;
+  phone?: string;
+  bio?: string;
+  avatar?: File;
+}

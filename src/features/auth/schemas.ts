@@ -11,16 +11,18 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const usernameField = z
+  .string()
+  .trim()
+  .min(1, "Username is required")
+  .min(3, "Username must be at least 3 characters")
+  .regex(/^\S+$/, "Username cannot contain spaces");
+
 export const registerSchema = z
   .object({
     name: z.string().trim().min(1, "Name is required"),
     email: emailField,
-    username: z
-      .string()
-      .trim()
-      .min(1, "Username is required")
-      .min(3, "Username must be at least 3 characters")
-      .regex(/^\S+$/, "Username cannot contain spaces"),
+    username: usernameField,
     phone: z
       .string()
       .trim()
