@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { useGoBack } from "@/hooks/use-go-back";
 
 interface PageHeaderProps {
   title: string;
@@ -9,12 +9,7 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({ title, right }: PageHeaderProps) {
-  const router = useRouter();
-
-  const goBack = () => {
-    if (window.history.length > 1) router.back();
-    else router.push("/");
-  };
+  const goBack = useGoBack();
 
   return (
     <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-3 border-b border-neutral-900 bg-black px-4">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
 import { CircleX, Loader2, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -12,9 +11,9 @@ import { getErrorMessage } from "@/lib/api";
 import { useUserSearch } from "../hooks";
 import { UserListItem } from "./user-list-item";
 import { UserListSkeleton } from "./user-list-skeleton";
+import { useGoBack } from "@/hooks/use-go-back";
 
 export function UserSearch() {
-  const router = useRouter();
   const [keyword, setKeyword] = useState("");
   const debouncedKeyword = useDebounce(keyword.trim(), 400);
 
@@ -38,11 +37,7 @@ export function UserSearch() {
     Boolean(hasNextPage),
   );
 
-  // Go back if the user came from inside the app, otherwise go home
-  const handleClose = () => {
-    if (window.history.length > 1) router.back();
-    else router.push("/");
-  };
+  const handleClose = useGoBack();
 
   const renderResults = () => {
     if (!debouncedKeyword) {
