@@ -50,7 +50,7 @@ export function useToggleLike() {
 
     // Profile stats include a likes count
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.me });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true });
     },
   });
 }

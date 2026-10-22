@@ -40,7 +40,7 @@ export function AppHeader() {
   );
 }
 
-function UserMenu() {
+export function UserMenu() {
   const { data } = useMe();
   const logout = useLogout();
   const profile = data?.profile;

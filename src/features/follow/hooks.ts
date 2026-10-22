@@ -38,7 +38,7 @@ export function useToggleFollow() {
     onSettled: () => {
       // New/removed posts in the timeline + following count in my stats
       queryClient.invalidateQueries({ queryKey: queryKeys.feed });
-      queryClient.invalidateQueries({ queryKey: queryKeys.me });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true });
     },
   });
 }

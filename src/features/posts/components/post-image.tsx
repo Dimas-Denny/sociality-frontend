@@ -7,10 +7,11 @@ import { ImageOff } from "lucide-react";
 interface PostImageProps {
   src: string;
   alt: string;
+  sizes?: string;
 }
 
 // Square post image with a placeholder if it fails to load (PDF: missing media)
-export function PostImage({ src, alt }: PostImageProps) {
+export function PostImage({ src, alt, sizes = "100vw" }: PostImageProps) {
   const [failed, setFailed] = useState(false);
 
   return (
@@ -24,7 +25,7 @@ export function PostImage({ src, alt }: PostImageProps) {
           src={src}
           alt={alt}
           fill
-          sizes="100vw"
+          sizes={sizes}
           className="object-cover"
           onError={() => setFailed(true)}
         />
