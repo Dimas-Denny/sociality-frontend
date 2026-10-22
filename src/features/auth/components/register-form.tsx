@@ -11,7 +11,7 @@ import { getErrorMessage } from "@/lib/api";
 import { useRegister } from "../hooks";
 import { registerSchema, type RegisterFormValues } from "../schemas";
 import { authInputClass } from "../styles";
-import { FormField } from "./form-field";
+import { FormField } from "@/components/shared/form-field";
 
 export function RegisterForm() {
   const router = useRouter();
