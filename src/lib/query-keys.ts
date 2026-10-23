@@ -18,4 +18,7 @@ export const queryKeys = {
     ["posts", "user", username, "posts"] as const,
   userLikes: (username: string) =>
     ["posts", "user", username, "likes"] as const,
+
+  followList: (owner: string, kind: "followers" | "following") =>
+    ["users", kind, owner] as const,
 };

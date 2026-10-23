@@ -6,13 +6,13 @@ import { useAppSelector } from "@/store/hooks";
 import { useInfinitePosts } from "@/features/posts/hooks";
 import { profileApi } from "./api";
 
-export function useProfile(username: string) {
+export function useProfile(username: string, enabled = true) {
   const isReady = useAppSelector((state) => state.auth.isReady);
 
   return useQuery({
     queryKey: queryKeys.userProfile(username),
     queryFn: () => profileApi.getProfile(username),
-    enabled: isReady,
+    enabled: isReady && enabled,
     retry: false,
   });
 }
