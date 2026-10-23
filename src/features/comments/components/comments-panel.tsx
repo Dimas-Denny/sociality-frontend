@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { ErrorState } from "@/components/shared/error-state";
 import { getErrorMessage } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import { useMe } from "@/features/me/hooks";
 import { useAppSelector } from "@/store/hooks";
 import { useComments, useDeleteComment } from "../hooks";
@@ -14,10 +15,14 @@ import { CommentComposer } from "./comment-composer";
 interface CommentsPanelProps {
   postId: number;
   postAuthorId: number;
+  stickyComposer?: boolean;
 }
 
-// Reusable: used in the bottom sheet now, and on the Post Detail page later
-export function CommentsPanel({ postId, postAuthorId }: CommentsPanelProps) {
+export function CommentsPanel({
+  postId,
+  postAuthorId,
+  stickyComposer = false,
+}: CommentsPanelProps) {
   const pathname = usePathname();
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const { data: me } = useMe();
@@ -98,20 +103,23 @@ export function CommentsPanel({ postId, postAuthorId }: CommentsPanelProps) {
     <>
       <h2 className="px-4 pt-4 text-md font-bold">Comments</h2>
 
+      {/* The comment list — this is where renderList() is used */}
       <div className="min-h-0 flex-1 overflow-y-auto px-4">{renderList()}</div>
 
-      {isAuthenticated ? (
-        <CommentComposer postId={postId} />
-      ) : (
-        <div className="border-t border-neutral-900 p-4 text-center">
-          <Link
-            href={`/login?returnTo=${encodeURIComponent(pathname)}`}
-            className="text-sm font-bold text-primary-200"
-          >
-            Log in to add a comment
-          </Link>
-        </div>
-      )}
+      <div className={cn(stickyComposer && "sticky bottom-0 z-10 bg-black")}>
+        {isAuthenticated ? (
+          <CommentComposer postId={postId} />
+        ) : (
+          <div className="border-t border-neutral-900 p-4 text-center">
+            <Link
+              href={`/login?returnTo=${encodeURIComponent(pathname)}`}
+              className="text-sm font-bold text-primary-200"
+            >
+              Log in to add a comment
+            </Link>
+          </div>
+        )}
+      </div>
     </>
   );
 }

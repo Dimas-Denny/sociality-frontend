@@ -74,6 +74,7 @@ export function CommentComposer({ postId }: { postId: number }) {
       <div className="relative flex-1">
         <Input
           {...textField}
+          id="comment-input"
           ref={(element) => {
             registerRef(element);
             inputRef.current = element;
