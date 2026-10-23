@@ -1,5 +1,6 @@
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 import type { Post, PostList } from "./types";
+import { queryKeys } from "@/lib/query-keys";
 
 // Query keys that hold post data (used to cancel in-flight refetches)
 export const POST_QUERY_ROOTS = [["feed"], ["posts"]] as const;
@@ -43,5 +44,22 @@ export function updatePostEverywhere(
 export async function cancelPostQueries(queryClient: QueryClient) {
   await Promise.all(
     POST_QUERY_ROOTS.map((queryKey) => queryClient.cancelQueries({ queryKey })),
+  );
+}
+
+export function removePostEverywhere(queryClient: QueryClient, postId: number) {
+  queryClient.setQueriesData({}, (data: unknown) => {
+    if (!isInfinitePostList(data)) return data;
+    return {
+      ...data,
+      pages: data.pages.map((page) => ({
+        ...page,
+        posts: page.posts.filter((post) => post.id !== postId),
+      })),
+    };
+  });
+
+  queryClient.setQueryData<number[]>(queryKeys.savedIds, (ids) =>
+    ids?.filter((id) => id !== postId),
   );
 }

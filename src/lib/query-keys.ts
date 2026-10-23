@@ -21,4 +21,6 @@ export const queryKeys = {
 
   followList: (owner: string, kind: "followers" | "following") =>
     ["users", kind, owner] as const,
+
+  postDetail: (postId: number) => ["posts", "detail", postId] as const,
 };

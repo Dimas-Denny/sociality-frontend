@@ -22,4 +22,11 @@ export const postsApi = {
     const { data } = await api.post<ApiResponse<Post>>("/posts", formData);
     return data.data;
   },
+
+  getPost: async (postId: number) => {
+    const { data } = await api.get<ApiResponse<Post>>(`/posts/${postId}`);
+    return data.data;
+  },
+
+  deletePost: (postId: number) => api.delete(`/posts/${postId}`),
 };

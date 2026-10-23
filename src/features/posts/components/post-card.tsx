@@ -16,16 +16,28 @@ import { PostCaption } from "./post-caption";
 interface PostCardProps {
   post: Post;
   priority?: boolean;
+  variant?: "feed" | "detail";
+  headerAction?: React.ReactNode;
+  onCommentClick?: () => void;
 }
 
-export function PostCard({ post, priority = false }: PostCardProps) {
+export function PostCard({
+  post,
+  priority = false,
+  variant = "feed",
+  headerAction,
+  onCommentClick,
+}: PostCardProps) {
   const { author } = post;
+  const isDetail = variant === "detail";
   const profileHref = `/profile/${author.username}`;
   const postHref = `/posts/${post.id}`;
 
   const dispatch = useAppDispatch();
-  const showComments = () =>
-    dispatch(openComments({ postId: post.id, postAuthorId: author.id }));
+  const showComments =
+    onCommentClick ??
+    (() =>
+      dispatch(openComments({ postId: post.id, postAuthorId: author.id })));
 
   const handleShare = async () => {
     try {
@@ -38,34 +50,38 @@ export function PostCard({ post, priority = false }: PostCardProps) {
     }
   };
 
+  const image = (
+    <PostImage
+      src={post.imageUrl}
+      alt={post.caption || `Post by ${author.username}`}
+      priority={priority}
+    />
+  );
+
   return (
     <article className="flex flex-col gap-3 border-b border-neutral-900 px-4 py-4">
       {/* Author */}
-      <Link href={profileHref} className="flex items-center gap-3">
-        <UserAvatar src={author.avatarUrl} name={author.name} size={40} />
-        <div className="min-w-0">
-          <p className="truncate text-sm font-bold">{author.name}</p>
-          <p className="text-xs text-neutral-400 capitalize">
-            {fromNow(post.createdAt)}
-          </p>
-        </div>
-      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <Link href={profileHref} className="flex min-w-0 items-center gap-3">
+          <UserAvatar src={author.avatarUrl} name={author.name} size={40} />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold">{author.name}</p>
+            <p className="text-xs text-neutral-400 capitalize">
+              {fromNow(post.createdAt)}
+            </p>
+          </div>
+        </Link>
+        {headerAction}
+      </div>
 
-      {/* Image — PostImage is used here */}
-      <Link href={postHref}>
-        <PostImage
-          src={post.imageUrl}
-          alt={post.caption || `Post by ${author.username}`}
-          priority={priority}
-        />
-      </Link>
+      {/* Image: links to detail in the feed, plain on the detail page */}
+      {isDetail ? image : <Link href={postHref}>{image}</Link>}
 
       {/* Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <LikeButton post={post} />
 
-          {/* Opens the global comments sheet (Redux ui-slice) */}
           <button
             type="button"
             onClick={showComments}
@@ -93,7 +109,9 @@ export function PostCard({ post, priority = false }: PostCardProps) {
         <Link href={profileHref} className="text-sm font-bold">
           {author.username}
         </Link>
-        {post.caption && <PostCaption text={post.caption} />}
+        {post.caption && (
+          <PostCaption text={post.caption} alwaysExpanded={isDetail} />
+        )}
       </div>
     </article>
   );
