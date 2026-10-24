@@ -14,7 +14,11 @@ import { queryKeys } from "@/lib/query-keys";
 import { useAppSelector } from "@/store/hooks";
 import type { PageParams } from "@/types/api";
 import { postsApi } from "./api";
-import { cancelPostQueries, removePostEverywhere } from "./cache";
+import {
+  cancelPostQueries,
+  findPostInCache,
+  removePostEverywhere,
+} from "./cache";
 import type { Post, PostList } from "./types";
 
 interface UseInfinitePostsOptions {
@@ -24,12 +28,11 @@ interface UseInfinitePostsOptions {
   pageSize?: number;
 }
 
-// Shared paging + de-duplication for every post list (grid or feed)
 export function useInfinitePosts({
   queryKey,
   fetchPage,
   enabled = true,
-  pageSize = 18, // 6 rows of 3 in the grid
+  pageSize = 18,
 }: UseInfinitePostsOptions) {
   const query = useInfiniteQuery({
     queryKey,
@@ -69,14 +72,16 @@ export function useCreatePost() {
 }
 
 export function usePost(postId: number) {
+  const queryClient = useQueryClient();
   const isReady = useAppSelector((state) => state.auth.isReady);
   const isValidId = Number.isInteger(postId) && postId > 0;
 
   return useQuery({
     queryKey: queryKeys.postDetail(postId),
     queryFn: () => postsApi.getPost(postId),
-    enabled: isReady && isValidId, // wait for the token so likedByMe is correct
-    retry: false, // a 404 won't fix itself
+    enabled: isReady && isValidId,
+    retry: false,
+    placeholderData: () => findPostInCache(queryClient, postId),
   });
 }
 
@@ -86,13 +91,11 @@ export function useDeletePost() {
   return useMutation({
     mutationFn: postsApi.deletePost,
 
-    // PDF: "Delete removes the post from every list without a full reload"
     onMutate: async (postId) => {
       await cancelPostQueries(queryClient);
       removePostEverywhere(queryClient, postId);
     },
 
-    // Lists were already changed, so refetch them to restore the post
     onError: (error) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: queryKeys.feed });
@@ -101,7 +104,7 @@ export function useDeletePost() {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true }); // post count
+      queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true });
     },
   });
 }

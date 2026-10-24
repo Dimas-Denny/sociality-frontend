@@ -37,7 +37,7 @@ export function updatePostEverywhere(
       };
     }
     if (isPost(data) && data.id === postId) return updater(data);
-    return data; // unrelated query, leave untouched
+    return data;
   });
 }
 
@@ -62,4 +62,21 @@ export function removePostEverywhere(queryClient: QueryClient, postId: number) {
   queryClient.setQueryData<number[]>(queryKeys.savedIds, (ids) =>
     ids?.filter((id) => id !== postId),
   );
+}
+
+export function findPostInCache(
+  queryClient: QueryClient,
+  postId: number,
+): Post | undefined {
+  for (const [, data] of queryClient.getQueriesData({})) {
+    if (isInfinitePostList(data)) {
+      for (const page of data.pages) {
+        const found = page.posts.find((post) => post.id === postId);
+        if (found) return found;
+      }
+    } else if (isPost(data) && data.id === postId) {
+      return data;
+    }
+  }
+  return undefined;
 }

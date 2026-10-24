@@ -1,15 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { MessageCircle, Send } from "lucide-react";
-import { toast } from "sonner";
 import { UserAvatar } from "@/components/shared/user-avatar";
-import { LikeButton } from "@/features/likes/components/like-button";
-import { SaveButton } from "@/features/saves/components/save-button";
 import { fromNow } from "@/lib/date";
 import { useAppDispatch } from "@/store/hooks";
 import { openComments } from "@/store/slices/ui-slice";
 import type { Post } from "../types";
+import { PostActions } from "./post-actions";
 import { PostImage } from "./post-image";
 import { PostCaption } from "./post-caption";
 
@@ -39,21 +36,12 @@ export function PostCard({
     (() =>
       dispatch(openComments({ postId: post.id, postAuthorId: author.id })));
 
-  const handleShare = async () => {
-    try {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}${postHref}`,
-      );
-      toast.success("Link copied to clipboard");
-    } catch {
-      toast.error("Couldn't copy the link");
-    }
-  };
-
   const image = (
     <PostImage
       src={post.imageUrl}
       alt={post.caption || `Post by ${author.username}`}
+      // Mobile: full width. Desktop: inside the 600px feed column
+      sizes="(min-width: 768px) 600px, 100vw"
       priority={priority}
     />
   );
@@ -77,32 +65,7 @@ export function PostCard({
       {/* Image: links to detail in the feed, plain on the detail page */}
       {isDetail ? image : <Link href={postHref}>{image}</Link>}
 
-      {/* Actions */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <LikeButton post={post} />
-
-          <button
-            type="button"
-            onClick={showComments}
-            aria-label="Show comments"
-            className="flex items-center gap-1.5"
-          >
-            <MessageCircle className="size-6" />
-            <span className="text-md font-semibold">{post.commentCount}</span>
-          </button>
-
-          <button
-            type="button"
-            aria-label="Copy post link"
-            onClick={handleShare}
-          >
-            <Send className="size-6" />
-          </button>
-        </div>
-
-        <SaveButton postId={post.id} />
-      </div>
+      <PostActions post={post} onCommentClick={showComments} />
 
       {/* Caption */}
       <div className="flex flex-col gap-0.5">
