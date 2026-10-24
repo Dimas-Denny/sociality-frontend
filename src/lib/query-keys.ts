@@ -23,4 +23,6 @@ export const queryKeys = {
     ["users", kind, owner] as const,
 
   postDetail: (postId: number) => ["posts", "detail", postId] as const,
+
+  likedBy: (postId: number) => ["users", "liked-by", postId] as const,
 };

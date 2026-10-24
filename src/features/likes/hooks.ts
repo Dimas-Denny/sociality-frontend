@@ -1,14 +1,21 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
+import { useAppSelector } from "@/store/hooks";
 import {
   cancelPostQueries,
   updatePostEverywhere,
 } from "@/features/posts/cache";
 import type { Post } from "@/features/posts/types";
+import type { UserSummary } from "@/features/users/types";
 import { likesApi } from "./api";
 
 interface ToggleLikeVars {
@@ -48,9 +55,38 @@ export function useToggleLike() {
       toast.error(getErrorMessage(error, "Couldn't update like"));
     },
 
-    // Profile stats include a likes count
-    onSettled: () => {
+    onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true });
+      queryClient.invalidateQueries({ queryKey: queryKeys.likedBy(postId) });
     },
   });
+}
+
+const LIKED_BY_PAGE_SIZE = 20;
+
+export function useLikedBy(postId: number) {
+  const isReady = useAppSelector((state) => state.auth.isReady);
+
+  const query = useInfiniteQuery({
+    queryKey: queryKeys.likedBy(postId),
+    queryFn: ({ pageParam }) =>
+      likesApi.getLikedBy(postId, {
+        page: pageParam,
+        limit: LIKED_BY_PAGE_SIZE,
+      }),
+    initialPageParam: 1,
+    getNextPageParam: ({ pagination }) =>
+      pagination.page < pagination.totalPages ? pagination.page + 1 : undefined,
+    enabled: isReady, // token needed for isFollowedByMe / isMe
+  });
+
+  const users = useMemo(() => {
+    const map = new Map<number, UserSummary>();
+    query.data?.pages.forEach((page) =>
+      page.users.forEach((user) => map.set(user.id, user)),
+    );
+    return Array.from(map.values());
+  }, [query.data]);
+
+  return { ...query, users };
 }

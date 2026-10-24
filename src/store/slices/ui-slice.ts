@@ -8,10 +8,12 @@ interface CommentsTarget {
 
 interface UiState {
   commentsTarget: CommentsTarget | null; // null = comments sheet closed
+  likedByPostId: number | null; // null = "Liked by" sheet closed
 }
 
 const initialState: UiState = {
   commentsTarget: null,
+  likedByPostId: null,
 };
 
 const uiSlice = createSlice({
@@ -24,8 +26,15 @@ const uiSlice = createSlice({
     closeComments(state) {
       state.commentsTarget = null;
     },
+    openLikedBy(state, action: PayloadAction<number>) {
+      state.likedByPostId = action.payload;
+    },
+    closeLikedBy(state) {
+      state.likedByPostId = null;
+    },
   },
 });
 
-export const { openComments, closeComments } = uiSlice.actions;
+export const { openComments, closeComments, openLikedBy, closeLikedBy } =
+  uiSlice.actions;
 export default uiSlice.reducer;
