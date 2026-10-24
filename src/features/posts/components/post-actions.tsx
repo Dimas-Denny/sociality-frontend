@@ -2,6 +2,7 @@
 
 import { MessageCircle, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 import { LikeButton } from "@/features/likes/components/like-button";
 import { SaveButton } from "@/features/saves/components/save-button";
 import type { Post } from "../types";
@@ -12,6 +13,8 @@ interface PostActionsProps {
 }
 
 export function PostActions({ post, onCommentClick }: PostActionsProps) {
+  const requireAuth = useRequireAuth();
+
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(
@@ -30,7 +33,7 @@ export function PostActions({ post, onCommentClick }: PostActionsProps) {
 
         <button
           type="button"
-          onClick={onCommentClick}
+          onClick={() => requireAuth(onCommentClick)}
           aria-label="Show comments"
           className="flex items-center gap-1.5"
         >
@@ -38,7 +41,11 @@ export function PostActions({ post, onCommentClick }: PostActionsProps) {
           <span className="text-md font-semibold">{post.commentCount}</span>
         </button>
 
-        <button type="button" aria-label="Copy post link" onClick={handleShare}>
+        <button
+          type="button"
+          aria-label="Copy post link"
+          onClick={() => requireAuth(handleShare)}
+        >
           <Send className="size-6" />
         </button>
       </div>
