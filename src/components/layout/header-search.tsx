@@ -30,7 +30,7 @@ export function HeaderSearch() {
   };
 
   return (
-    <div ref={ref} className="relative hidden w-full max-w-[491px] md:block">
+    <div ref={ref} className="relative hidden w-full max-w-122.75 md:block">
       <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-neutral-500" />
       <Input
         ref={inputRef}
