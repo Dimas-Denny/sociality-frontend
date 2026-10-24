@@ -12,3 +12,15 @@ export const setToken = (token: string) =>
   });
 
 export const removeToken = () => Cookies.remove(TOKEN_KEY);
+
+export function isTokenExpired(token: string) {
+  try {
+    const [, payload] = token.split(".");
+    const json = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/")),
+    );
+    return typeof json.exp === "number" && json.exp * 1000 <= Date.now();
+  } catch {
+    return true; // malformed token = treat as expired
+  }
+}
