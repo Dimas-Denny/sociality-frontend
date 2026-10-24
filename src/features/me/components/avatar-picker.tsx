@@ -35,7 +35,19 @@ export function AvatarPicker({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <UserAvatar src={previewUrl ?? currentUrl} name={name} size={80} />
+      {/* 80px on mobile, 130px on desktop (inline size can't be changed by md: classes) */}
+      <UserAvatar
+        src={previewUrl ?? currentUrl}
+        name={name}
+        size={80}
+        className="md:hidden"
+      />
+      <UserAvatar
+        src={previewUrl ?? currentUrl}
+        name={name}
+        size={130}
+        className="hidden md:inline-flex"
+      />
 
       <input
         ref={inputRef}

@@ -7,8 +7,8 @@ import { UserMenu } from "@/components/layout/app-header";
 import { getErrorMessage } from "@/lib/api";
 import { useMe } from "../hooks";
 import { EditProfileForm } from "./edit-profile-form";
+import { PageTitle } from "@/components/layout/page-title";
 
-// Loads the profile first so the form starts with the current values
 export function EditProfile() {
   const { data, isLoading, isError, error, refetch } = useMe();
 
@@ -16,7 +16,9 @@ export function EditProfile() {
     <>
       <PageHeader title="Edit Profile" right={<UserMenu />} />
 
-      <main className="px-4 py-6">
+      <main className="px-4 py-6 md:mx-auto md:max-w-[800px] md:px-0 md:pt-10">
+        <PageTitle title="Edit Profile" />
+
         {isLoading ? (
           <div className="flex justify-center py-16">
             <Loader2 className="size-6 animate-spin text-neutral-400" />
