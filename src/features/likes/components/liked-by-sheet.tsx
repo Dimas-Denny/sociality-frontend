@@ -20,7 +20,7 @@ export function LikedBySheet() {
   }, [pathname, close]);
 
   return (
-    <BottomSheet open={postId !== null} onClose={close} title="Liked by">
+    <BottomSheet open={postId !== null} onClose={close} title="Likes">
       {postId !== null && <LikedByList postId={postId} />}
     </BottomSheet>
   );

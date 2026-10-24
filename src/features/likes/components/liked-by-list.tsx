@@ -57,7 +57,6 @@ export function LikedByList({ postId }: { postId: number }) {
       <>
         <ul className="-mx-4">
           {users.map((user) => {
-            // API sends isMe with a token; fall back to comparing usernames
             const isMe = user.isMe ?? user.username === me?.profile.username;
             return (
               <UserListItem
@@ -94,8 +93,8 @@ export function LikedByList({ postId }: { postId: number }) {
 
   return (
     <>
-      <h2 className="px-4 pt-4 text-md font-bold">Liked by</h2>
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+      <h2 className="px-4 pt-4 text-md font-bold md:px-6 md:pt-6">Likes</h2>
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 md:px-2 md:pb-6">
         {renderList()}
       </div>
     </>
