@@ -12,7 +12,6 @@ export default function MainLayout({
       {/* bottom padding so the floating nav never covers content */}
       <div className="pb-28">{children}</div>
       <BottomNav />
-      <CommentsSheet />
     </>
   );
 }
