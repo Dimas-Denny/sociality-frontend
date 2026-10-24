@@ -7,9 +7,10 @@ import { makeStore } from "@/store";
 import { AuthInitializer } from "./auth-initializer";
 import { Toaster } from "sonner";
 import { NavigationTracker } from "./navigation-tracker";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  // useState initializer = created once per client, never recreated on re-render
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const [store] = useState(() => makeStore());
   const [queryClient] = useState(
     () =>
@@ -30,7 +31,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <AuthInitializer />
         <NavigationTracker />
         {children}
-        <Toaster theme="dark" position="top-center" richColors />
+        <Toaster
+          theme="dark"
+          position={isDesktop ? "top-right" : "top-center"}
+          richColors
+        />
       </QueryClientProvider>
     </Provider>
   );

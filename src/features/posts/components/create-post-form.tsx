@@ -14,6 +14,7 @@ import { UserMenu } from "@/components/layout/app-header";
 import { getErrorMessage } from "@/lib/api";
 import { useCreatePost } from "../hooks";
 import { createPostSchema, type CreatePostFormValues } from "../schemas";
+import { PageTitle } from "@/components/layout/page-title";
 
 export function CreatePostForm() {
   const router = useRouter();
@@ -42,7 +43,9 @@ export function CreatePostForm() {
     <>
       <PageHeader title="Add Post" right={<UserMenu />} />
 
-      <main className="px-4 py-6">
+      <main className="px-4 py-6 md:mx-auto md:max-w-[452px] md:px-0 md:pt-10">
+        <PageTitle title="Add Post" />
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
