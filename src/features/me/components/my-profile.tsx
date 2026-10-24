@@ -69,7 +69,7 @@ export function MyProfile() {
     <>
       <PageHeader title={profile.name} right={<UserMenu />} />
 
-      <main>
+      <main className="md:mx-auto md:max-w-203">
         <ProfileSummary
           name={profile.name}
           username={profile.username}
@@ -80,7 +80,7 @@ export function MyProfile() {
               <Button
                 render={<Link href="/me/edit" />}
                 nativeButton={false}
-                className="h-10 flex-1 rounded-full border border-neutral-900 bg-transparent text-sm font-bold text-neutral-25 hover:bg-neutral-900"
+                className="h-10 flex-1 rounded-full border border-neutral-900 bg-transparent text-sm font-bold text-neutral-25 hover:bg-neutral-900 md:h-12 md:flex-none md:px-6 md:text-md"
               >
                 Edit Profile
               </Button>
@@ -88,7 +88,7 @@ export function MyProfile() {
                 type="button"
                 onClick={handleShare}
                 aria-label="Copy profile link"
-                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-neutral-900 transition-colors hover:bg-neutral-900"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-neutral-900 transition-colors hover:bg-neutral-900 md:size-12"
               >
                 <Send className="size-5" />
               </button>

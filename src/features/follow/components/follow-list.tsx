@@ -132,7 +132,7 @@ export function FollowList({ owner, kind }: FollowListProps) {
     <>
       <PageHeader title={title} right={<HeaderAccountMenu />} />
 
-      <main className="pt-2">
+      <main className="pt-2 md:mx-auto md:max-w-[812px] md:pt-10">
         <ProfileTabs
           tabs={tabs}
           active={kind}

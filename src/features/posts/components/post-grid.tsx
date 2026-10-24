@@ -38,7 +38,7 @@ export function PostGrid({ result, empty }: PostGridProps) {
 
   if (isLoading) {
     return (
-      <ul className="grid animate-pulse grid-cols-3 gap-0.5 px-4">
+      <ul className="grid animate-pulse grid-cols-3 gap-0.5 px-4 md:gap-1 md:px-0">
         {Array.from({ length: 9 }).map((_, i) => (
           <li key={i} className="aspect-square rounded-md bg-neutral-900" />
         ))}
@@ -56,14 +56,14 @@ export function PostGrid({ result, empty }: PostGridProps) {
 
   return (
     <>
-      <ul className="grid grid-cols-3 gap-0.5 px-4">
+      <ul className="grid grid-cols-3 gap-0.5 px-4 md:gap-1 md:px-0">
         {posts.map((post) => (
           <li key={post.id}>
             <Link href={`/posts/${post.id}`} className="block">
               <PostImage
                 src={post.imageUrl}
                 alt={post.caption || `Post by ${post.author.username}`}
-                sizes="33vw"
+                sizes="(min-width: 768px) 270px, 33vw"
               />
             </Link>
           </li>

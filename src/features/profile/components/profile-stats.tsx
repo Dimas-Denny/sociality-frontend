@@ -8,12 +8,12 @@ export interface StatItem {
 
 export function ProfileStats({ items }: { items: StatItem[] }) {
   return (
-    <ul className="grid grid-cols-4 divide-x divide-neutral-900 px-4 py-4">
+    <ul className="grid grid-cols-4 divide-x divide-neutral-900 px-4 py-4 md:px-0 md:py-6">
       {items.map(({ label, value, href }) => {
         const content = (
           <>
-            <span className="text-lg font-bold">{value}</span>
-            <span className="text-xs text-neutral-400">{label}</span>
+            <span className="text-lg font-bold md:text-xl">{value}</span>
+            <span className="text-xs text-neutral-400 md:text-md">{label}</span>
           </>
         );
         return (

@@ -90,7 +90,7 @@ export function PublicProfile({ username }: { username: string }) {
     <>
       {header(profile.name)}
 
-      <main>
+      <main className="md:mx-auto md:max-w-203">
         <ProfileSummary
           name={profile.name}
           username={profile.username}
@@ -101,13 +101,13 @@ export function PublicProfile({ username }: { username: string }) {
               <FollowButton
                 username={profile.username}
                 isFollowing={profile.isFollowing}
-                className="flex-1"
+                className="flex-1 md:h-12 md:flex-none md:px-6 md:text-md"
               />
               <button
                 type="button"
                 onClick={handleShare}
                 aria-label="Copy profile link"
-                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-neutral-900 transition-colors hover:bg-neutral-900"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-neutral-900 transition-colors hover:bg-neutral-900 md:size-12"
               >
                 <Send className="size-5" />
               </button>

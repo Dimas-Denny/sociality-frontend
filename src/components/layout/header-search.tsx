@@ -70,7 +70,7 @@ export function HeaderSearch() {
               <p className="text-xs text-neutral-400">Change your keyword</p>
             </div>
           ) : (
-            <ul>
+            <ul className="px-4">
               {users.slice(0, MAX_RESULTS).map((user) => (
                 <UserListItem key={user.id} user={user} />
               ))}

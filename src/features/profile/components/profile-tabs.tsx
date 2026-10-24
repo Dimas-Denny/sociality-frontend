@@ -23,7 +23,7 @@ export function ProfileTabs<T extends string>({
   return (
     <div
       role="tablist"
-      className="mb-4 grid border-b border-neutral-900 px-4"
+      className="mb-4 grid border-b border-neutral-900 px-4 md:px-0"
       style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr))` }}
     >
       {tabs.map(({ id, label, icon: Icon }) => {

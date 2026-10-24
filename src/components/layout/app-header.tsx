@@ -14,9 +14,15 @@ import { useAppSelector } from "@/store/hooks";
 import { cn } from "@/lib/utils";
 import { HeaderSearch } from "./header-search";
 
-export function AppHeader() {
+export function AppHeader({ className }: { className?: string }) {
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-neutral-900 bg-black px-4 md:h-20 md:px-10 lg:px-30">
+    <header
+      className={cn(
+        "sticky top-0 z-40 flex h-16 items-center justify-between gap-4 border-b border-neutral-900 bg-black px-4 md:h-20 md:px-10 lg:px-30",
+        className,
+      )}
+    >
+      {/* Logo — must stay the first child of the header */}
       <Link href="/" className="flex shrink-0 items-center gap-3">
         <Image src={logo} alt="" width={30} height={30} priority />
         <span className="text-display-xs font-bold">Sociality</span>
@@ -40,9 +46,11 @@ export function AppHeader() {
   );
 }
 
+// Avatar menu when logged in, hamburger / Login+Register when logged out
 export function HeaderAccountMenu() {
   const { isAuthenticated, isReady } = useAppSelector((state) => state.auth);
 
+  // Placeholder until the token cookie is checked, avoids a hamburger flash
   if (!isReady)
     return (
       <span className="size-10 animate-pulse rounded-full bg-neutral-900" />

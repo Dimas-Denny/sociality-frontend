@@ -10,7 +10,7 @@ interface UserListItemProps {
 
 export function UserListItem({ user, action }: UserListItemProps) {
   return (
-    <li className="flex items-center gap-3 px-4 py-3">
+    <li className="flex items-center gap-3 px-4 py-3 md:px-0">
       <Link
         href={`/profile/${user.username}`}
         className="flex min-w-0 flex-1 items-center gap-2"
