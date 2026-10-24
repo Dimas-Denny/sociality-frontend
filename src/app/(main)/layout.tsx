@@ -1,5 +1,4 @@
 import { BottomNav } from "@/components/layout/bottom-nav";
-import { CommentsSheet } from "@/features/comments/components/comments-sheet";
 
 // Shared by every page that shows the bottom navigation
 export default function MainLayout({

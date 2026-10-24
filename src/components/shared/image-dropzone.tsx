@@ -47,6 +47,7 @@ export function ImageDropzone({
       id={id}
       type="file"
       accept="image/png,image/jpeg,image/webp"
+      aria-invalid={invalid}
       className="sr-only"
       onChange={(e) => {
         handleFiles(e.target.files);
@@ -89,7 +90,6 @@ export function ImageDropzone({
     );
   }
 
-  // Empty state (also shown when the chosen file isn't an image)
   return (
     <>
       {hiddenInput}
@@ -106,7 +106,6 @@ export function ImageDropzone({
           setIsDragging(false);
           handleFiles(e.dataTransfer.files);
         }}
-        aria-invalid={invalid}
         className={cn(
           "flex w-full flex-col items-center gap-1 rounded-xl border bg-neutral-950 px-6 py-6 transition-colors",
           invalid && "border-dashed border-accent-red",

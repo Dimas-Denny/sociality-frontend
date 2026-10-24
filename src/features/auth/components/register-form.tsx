@@ -33,12 +33,20 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = ({ confirmPassword: _, ...payload }: RegisterFormValues) => {
-    // confirmPassword is UI-only, the API doesn't accept it
-    registerMutation.mutate(payload, {
-      // Register returns a token, so the user is already logged in
-      onSuccess: () => router.replace("/"),
-    });
+  const onSubmit = ({
+    name,
+    email,
+    username,
+    phone,
+    password,
+  }: RegisterFormValues) => {
+    registerMutation.mutate(
+      { name, email, username, phone, password },
+      {
+        // Register returns a token, so the user is already logged in
+        onSuccess: () => router.replace("/"),
+      },
+    );
   };
 
   return (
