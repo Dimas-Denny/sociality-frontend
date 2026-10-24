@@ -16,7 +16,7 @@ export function EditProfile() {
     <>
       <PageHeader title="Edit Profile" right={<UserMenu />} />
 
-      <main className="px-4 py-6 md:mx-auto md:max-w-[800px] md:px-0 md:pt-10">
+      <main className="px-4 py-6 md:mx-auto md:max-w-200 md:px-0 md:pt-10">
         <PageTitle title="Edit Profile" />
 
         {isLoading ? (

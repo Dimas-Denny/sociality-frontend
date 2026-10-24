@@ -43,7 +43,7 @@ export function CreatePostForm() {
     <>
       <PageHeader title="Add Post" right={<UserMenu />} />
 
-      <main className="px-4 py-6 md:mx-auto md:max-w-[452px] md:px-0 md:pt-10">
+      <main className="px-4 py-6 md:mx-auto md:max-w-113 md:px-0 md:pt-10">
         <PageTitle title="Add Post" />
 
         <form
