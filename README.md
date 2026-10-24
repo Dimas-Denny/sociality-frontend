@@ -178,5 +178,6 @@ These are deliberate decisions based on what the API and the Figma design provid
 ## Author
 
 **Dimas Denny Wibowo** — [@Dimas-Denny](https://github.com/Dimas-Denny)
+**Live demo:** https://sociality-frontend.vercel.app
 
 WPH Bootcamp
