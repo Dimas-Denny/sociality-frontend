@@ -25,4 +25,11 @@ export const meApi = {
     const { data } = await api.patch<ApiResponse<unknown>>("/me", formData);
     return data.data;
   },
+
+  getMyLikes: async (params: PageParams) => {
+    const { data } = await api.get<ApiResponse<RawPostList>>("/me/likes", {
+      params,
+    });
+    return toPostList(data.data);
+  },
 };

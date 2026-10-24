@@ -58,6 +58,7 @@ export function useToggleLike() {
     onSettled: (_data, _error, { postId }) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.me, exact: true });
       queryClient.invalidateQueries({ queryKey: queryKeys.likedBy(postId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.myLikes });
     },
   });
 }

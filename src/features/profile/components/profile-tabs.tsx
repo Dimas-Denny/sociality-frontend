@@ -15,7 +15,6 @@ interface ProfileTabsProps<T extends string> {
   onChange: (id: T) => void;
 }
 
-// Generic so My Profile and Public Profile can share it
 export function ProfileTabs<T extends string>({
   tabs,
   active,
@@ -24,7 +23,8 @@ export function ProfileTabs<T extends string>({
   return (
     <div
       role="tablist"
-      className="mb-4 grid grid-cols-2 border-b border-neutral-900 px-4"
+      className="mb-4 grid border-b border-neutral-900 px-4"
+      style={{ gridTemplateColumns: `repeat(${tabs.length}, minmax(0, 1fr))` }}
     >
       {tabs.map(({ id, label, icon: Icon }) => {
         const isActive = id === active;
@@ -43,10 +43,10 @@ export function ProfileTabs<T extends string>({
             )}
           >
             <Icon
-              className="size-5"
+              className="size-5 shrink-0"
               fill={isActive ? "currentColor" : "none"}
             />
-            {label}
+            <span className="truncate">{label}</span>
           </button>
         );
       })}

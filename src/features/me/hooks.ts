@@ -41,3 +41,13 @@ export function useUpdateProfile() {
     },
   });
 }
+
+export function useMyLikes(enabled: boolean) {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
+  return useInfinitePosts({
+    queryKey: queryKeys.myLikes,
+    fetchPage: meApi.getMyLikes,
+    enabled: isAuthenticated && enabled,
+  });
+}

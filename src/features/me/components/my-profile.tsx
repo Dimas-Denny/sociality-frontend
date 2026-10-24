@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Bookmark, LayoutGrid, Loader2, Send } from "lucide-react";
+import { Bookmark, Heart, LayoutGrid, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -18,13 +18,14 @@ import {
   type TabItem,
 } from "@/features/profile/components/profile-tabs";
 import { useSavedPosts } from "@/features/saves/hooks";
-import { useMe, useMyPosts } from "../hooks";
+import { useMe, useMyLikes, useMyPosts } from "../hooks";
 
-type MyTab = "gallery" | "saved";
+type MyTab = "gallery" | "saved" | "liked";
 
 const TABS: TabItem<MyTab>[] = [
   { id: "gallery", label: "Gallery", icon: LayoutGrid },
   { id: "saved", label: "Saved", icon: Bookmark },
+  { id: "liked", label: "Liked", icon: Heart },
 ];
 
 const primaryButtonClass =
@@ -35,6 +36,7 @@ export function MyProfile() {
   const { data, isLoading, isError, error, refetch } = useMe();
   const myPosts = useMyPosts();
   const savedPosts = useSavedPosts(tab === "saved"); // lazy: fetch on first open
+  const likedPosts = useMyLikes(tab === "liked"); // lazy: fetch on first open
 
   if (isLoading) {
     return (
@@ -113,7 +115,7 @@ export function MyProfile() {
 
         <ProfileTabs tabs={TABS} active={tab} onChange={setTab} />
 
-        {tab === "gallery" ? (
+        {tab === "gallery" && (
           <PostGrid
             result={myPosts}
             empty={
@@ -132,13 +134,27 @@ export function MyProfile() {
               />
             }
           />
-        ) : (
+        )}
+
+        {tab === "saved" && (
           <PostGrid
             result={savedPosts}
             empty={
               <EmptyState
                 title="No saved posts yet"
                 description="Tap the bookmark on any post to keep it here."
+              />
+            }
+          />
+        )}
+
+        {tab === "liked" && (
+          <PostGrid
+            result={likedPosts}
+            empty={
+              <EmptyState
+                title="No liked posts yet"
+                description="Posts you like will show up here."
               />
             }
           />
