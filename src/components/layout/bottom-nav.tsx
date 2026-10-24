@@ -17,7 +17,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Main navigation"
-      className="fixed inset-x-4 bottom-4 z-40 flex h-16 items-center justify-around rounded-full border border-neutral-900 bg-neutral-950/90 backdrop-blur-md"
+      className="fixed inset-x-4 bottom-4 z-40 flex h-16 items-center justify-around rounded-full border border-neutral-900 bg-neutral-950/90 backdrop-blur-md md:inset-x-auto md:bottom-8 md:left-1/2 md:w-90 md:-translate-x-1/2"
     >
       <NavItem href="/" label="Home" icon={House} active={pathname === "/"} />
 
