@@ -60,8 +60,8 @@ export function UserSearch() {
     if (users.length === 0) {
       return (
         <EmptyState
-          title="No users found"
-          description={`No results for "${debouncedKeyword}".`}
+          title="No results found"
+          description="Change your keyword"
         />
       );
     }
